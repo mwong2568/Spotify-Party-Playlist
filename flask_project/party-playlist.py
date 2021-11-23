@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, redirect
 app = Flask(__name__)
 
 
@@ -10,6 +10,10 @@ def login():
 @app.route('/authorize')
 def authorize():
     return render_template('auth.html')
+
+@app.route('/spotify')
+def spotify():
+    return redirect("https://developer.spotify.com/")
 
 @app.route('/home')
 def home():
