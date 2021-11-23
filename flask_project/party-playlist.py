@@ -1,18 +1,19 @@
-from flask import Flask
+from flask import Flask, render_template, url_for
 app = Flask(__name__)
 
 
-@app.route('/login')
+@app.route('/')
 def login():
-    return '<h1>Login</h1>'
+    return render_template('index.html')
+
 
 @app.route('/authorize')
 def authorize():
-    return '<h1>Spotify authorize access page!</h1>'
+    return render_template('auth.html')
 
 @app.route('/home')
 def home():
-    return '<h1>Home</h1>'
+    return render_template('home.html')
 
 @app.route('/room')
 def room():
