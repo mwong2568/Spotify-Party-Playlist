@@ -1,10 +1,13 @@
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
+test_arr = [1,2,3,5,4]
 
-@app.route('/login')
+data = []
+
+@app.route('/login', methods=['GET','POST'])
 def login():
-    return '<h1>Login</h1>'
+    return render_template('test.html',arr = test_arr)
 
 @app.route('/authorize')
 def authorize():
