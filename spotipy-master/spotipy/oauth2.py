@@ -162,8 +162,8 @@ class SpotifyClientCredentials(SpotifyAuthBase):
 
     def __init__(
         self,
-        client_id='bfee299fd5d24332b15f9d9f5bc18def',
-        client_secret='74aa77871b4b42838130acadeab8ae2c',
+        client_id='',
+        client_secret='',
         proxies=None,
         requests_session=True,
         requests_timeout=None,
