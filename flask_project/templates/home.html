@@ -4,8 +4,14 @@
 
 <h1>
     Home Page
-    TO DO
+    {% for key,value in form_data.items() %}
+    <h2> {{key}}</h2>
+    <p> {{value}}</p>
+    {% endfor %}
 </h1>
-<a href = {{url_for('authorize')}}>START</a>
 
+<form action="/room" method = "POST">
+    <p>Create or Join an Existing Room <input type = "text" name = "room_id" /></p>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
 {% endblock page_content %}

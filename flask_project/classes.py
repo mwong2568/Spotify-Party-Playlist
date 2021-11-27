@@ -1,7 +1,7 @@
 class User:
-    def __init__(self, user, user_id):
-        self.username = user
-        self.id = user_id
+    def __init__(self, client_id, client_secret):
+        self.client_id = client_id
+        self.client_secret = client_secret
     
     def whoami(self):
         # test func
@@ -16,11 +16,22 @@ class Room:
         self.room_id = room_id
         self.users = []
     
-    def create_playlist(type):
+    def add_user(self, user):
+        if user not in self.users:
+            self.users.append(user)
+        return
+    
+    def get_room_id(self):
+        return self.room_id
+    
+    def get_users(self):
+        return self.users
+
+    def create_playlist(self, type):
         #TODO
         pass
 
-    def create_infographic(num_users):
+    def create_infographic(self, num_users):
         #TODO
         pass
 
