@@ -1,15 +1,16 @@
-Print data from current_user_recently_played(limit=2)
-
+//Print data from current_user_recently_played(limit=2)
 data=sp.current_user_recently_played(limit=2)
 print(data['items'][1]['track']['album']['artists'][0]['name'])
-		   ^
-	index of song out of limit
+		   ^				 ^
+	index of song out of limit	index of song in album
 
 //Print Artist data from song id V
 data=sp.track('5laBj6BPcK9UlwxzLp2fS4')
 print(data['album']['artists'][0]['name'])
 				  ^
 				'name' or 'id'
+
+
 array (
   0 => 
   array (
