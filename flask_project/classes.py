@@ -24,15 +24,15 @@ class Room:
     def __init__(self, room_id):
         self.room_id = room_id
         self.users = []
-    
+
     def add_user(self, user):
         if user not in self.users:
             self.users.append(user)
         return
-    
+
     def get_room_id(self):
         return self.room_id
-    
+
     def get_users(self):
         return self.users
 
@@ -45,10 +45,11 @@ class Room:
         pass
 
 class Song:
-    def __init__(self, song_id, song_artist, song_genre):
+    def __init__(self, song_id, song_artist, song_artist_id, song_genre):
         #variables
         self.song_id = song_id
         self.song_artist = song_artist
+        self.song_artist_id = song_artist_id
         self.song_genre = song_genre
 
     def get_song_id(self):
@@ -56,6 +57,9 @@ class Song:
 
     def get_song_artist(self):
         return self.song_artist
+
+    def get_song_artist_id(self):
+        return self.song_artist_id
 
     def get_song_genre(self):
         return self.song_genre
