@@ -18,18 +18,29 @@ class User:
         #    print(obj.get_song_id())
         #    print(obj.get_song_artist())
         #    print(obj.get_song_genre())
-        #pass
+        pass
 
 class Room:
     def __init__(self, room_id):
         self.room_id = room_id
         self.users = []
+    
+    def add_user(self, user):
+        if user not in self.users:
+            self.users.append(user)
+        return
+    
+    def get_room_id(self):
+        return self.room_id
+    
+    def get_users(self):
+        return self.users
 
-    def create_playlist(type):
+    def create_playlist(self, type):
         #TODO
         pass
 
-    def create_infographic(num_users):
+    def create_infographic(self, num_users):
         #TODO
         pass
 

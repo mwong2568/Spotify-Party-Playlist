@@ -2,15 +2,11 @@
 
 {% block page_content %}
 
-<h1>
-    TEST
-    {% for x in arr %}
-        <h1>printing {{x}}</h1>
-    {% endfor %}
-
-    {% for x in arr2 %}
-        <h1>printing {{x.username}}</h1>
-    {% endfor %}
-</h1>
+<form action="/home" method = "POST">
+    <p>Client ID <input type = "text" name = "client_id" /></p>
+    <p>Client Secret <input type = "text" name = "client_secret" /></p>
+    <p>User ID <input type = "text" name = "user_id" /></p>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
 
 {% endblock page_content %}

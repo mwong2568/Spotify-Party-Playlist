@@ -4,9 +4,22 @@
 
 <h1>
     Login Page
-    INSTRUCTION HERE
-</h1>
-<a href = {{url_for('spotify')}}>GET ACCESS</a>
-<a href = {{url_for('authorize')}}>AUTHROIZE</a>
+    <h2>Instructions</h2>
 
+    <p>1. Navigate to the GET ACCESS button to open the spotify page</p>
+    <p>2. Log in or create a Spotify account</p>
+    <p>3. Once in the dashboard create an app</p>
+    <p>4. Get client id and secret within the app</p>
+    <p>5. Change redirect URL to http://localhost:9000 to designated URL and save</p>
+
+    <li><a href = {{url_for('spotify')}}>GET ACCESS</a></li>
+
+    <form action="/home" method = "POST">
+        <p>Client ID <input type = "text" name = "client_id" /></p>
+        <p>Client Secret <input type = "text" name = "client_secret" /></p>
+        <p>Name <input type = "text" name = "name" /></p>
+        <p><input type = "submit" value = "Submit" /></p>
+    </form>
+</h1>
+<a href = {{url_for('spotify')}}>START</a>
 {% endblock page_content %}
