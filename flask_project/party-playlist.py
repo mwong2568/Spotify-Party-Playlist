@@ -17,7 +17,7 @@ def test():
     
     return render_template('test.html', arr = test_arr, arr2=data)
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
 def login():
     
     client_id = ''
