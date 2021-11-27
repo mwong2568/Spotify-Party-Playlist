@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, redirect
 from classes import User, Room, Infographic, Playlist, Song
 
 app = Flask(__name__)
@@ -18,7 +18,11 @@ def login():
 
 @app.route('/authorize')
 def authorize():
-    return '<h1>Spotify authorize access page!</h1>'
+    return render_template('authorize.html')
+
+@app.route('/spotify')
+def spotify():
+    return redirect("https://developer.spotify.com/dashboard/")
 
 @app.route('/home')
 def home():
