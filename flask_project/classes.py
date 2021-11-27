@@ -13,10 +13,12 @@ class User:
         print(self.user_id, self.user_secret, self.user_name)
 
     def get_song_history(self):
-        #TODO
-        #for obj in self.list:
+        #TODO: return song hisotry
+        #for obj in self.song_history:
         #    print(obj.get_song_id())
-        pass
+        #    print(obj.get_song_artist())
+        #    print(obj.get_song_genre())
+        #pass
 
 class Room:
     def __init__(self, room_id):
@@ -32,7 +34,7 @@ class Room:
         pass
 
 class Song:
-    def __init__(self, song_id):
+    def __init__(self, song_id, song_artist, song_genre):
         #variables
         self.song_id = song_id
         self.song_artist = song_artist
@@ -40,6 +42,12 @@ class Song:
 
     def get_song_id(self):
         return self.song_id
+
+    def get_song_artist(self):
+        return self.song_artist
+
+    def get_song_genre(self):
+        return self.song_genre
 
 class Playlist:
     def __init__(self, songs, type):
