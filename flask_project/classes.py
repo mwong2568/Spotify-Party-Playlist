@@ -8,6 +8,17 @@ class User:
         # user data
         self.song_history = []
 
+        songList = []
+        for i in range(len(userHistory['items'])):
+            songId = userHistory['items'][i]['track']['album']['id'])
+            songArtist = userHistory['items'][i]['track']['album']['artists'][0]['name'])
+            songArtistId = userHistory['items'][i]['track']['album']['artists'][0]['id'])
+            songGenres = {
+
+            #dictionary
+            }
+
+
     def whoami(self):
         # test func
         print(self.user_id, self.user_secret, self.user_name)
@@ -19,6 +30,9 @@ class User:
         #    print(obj.get_song_artist())
         #    print(obj.get_song_genre())
         pass
+
+    def createSongList(userHistory):
+
 
 class Room:
     def __init__(self, room_id):
