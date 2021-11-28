@@ -1,5 +1,9 @@
+from collections import defaultdict
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
+
 class User:
-    def __init__(self, user_id, user_secret, user_name, songs_list):
+    def __init__(self, user_id, user_secret, user_name, userHistory):
         #   authentication
         self.user_id = user_id
         self.user_secret = user_secret
@@ -7,8 +11,24 @@ class User:
 
         # user data
         self.song_history = []
-        for song in songs_list:
-            self.song_history.append(song)
+
+        songList = []
+        sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=user_id,client_secret=user_secret))
+
+        for i in range(len(userHistory['items'])):
+            songId = userHistory['items'][i]['track']['album']['id']
+            songArtist = userHistory['items'][i]['track']['album']['artists'][0]['name']
+            songArtistId = userHistory['items'][i]['track']['album']['artists'][0]['id']
+
+            result = sp.search(songArtist)
+            track=result['tracks']['items'][0]
+
+            artist = sp.artist(track["artists"][0]["external_urls"]["spotify"])
+            songGenres = artist["genres"]
+
+            self.song_history.append(Song(songId,songArtist,songArtistId,songGenres))
+
+
 
     def whoami(self):
         # test func
@@ -21,6 +41,9 @@ class User:
         #    print(obj.get_song_artist())
         #    print(obj.get_song_genre())
         pass
+
+    #def createSongList(userHistory):
+
 
 class Room:
     def __init__(self, room_id):
