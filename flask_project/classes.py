@@ -1,5 +1,5 @@
 class User:
-    def __init__(self, user_id, user_secret, user_name):
+    def __init__(self, user_id, user_secret, user_name, songs_list):
         #   authentication
         self.user_id = user_id
         self.user_secret = user_secret
@@ -7,6 +7,8 @@ class User:
 
         # user data
         self.song_history = []
+        for song in songs_list:
+            self.song_history.append(song)
 
         songList = []
         for i in range(len(userHistory['items'])):
