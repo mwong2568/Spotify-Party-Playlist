@@ -9,9 +9,9 @@ redirect_uri = ''
 scope = 'user-read-recently-played'
 
 #____Test Variables____
-client_id = 'bfee299fd5d24332b15f9d9f5bc18def'
-client_secret = '74aa77871b4b42838130acadeab8ae2c'
-redirect_uri = 'http://localhost:9000'
+#client_id = 'bfee299fd5d24332b15f9d9f5bc18def'
+#client_secret = '74aa77871b4b42838130acadeab8ae2c'
+#redirect_uri = 'http://localhost:9000'
 
 
 #Authenticates user with specified ID and allows access to users recently played
