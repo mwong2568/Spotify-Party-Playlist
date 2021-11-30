@@ -97,6 +97,7 @@ class Song:
 class Playlist:
     def __init__(self, type):
         self.type = type
+        self.user_id = ''
         self.anonymous_username = 'milelongpoo'
         self.anonymous_client_id = '1e4ebebf89764ab9889940b50f5de398'
         self.anonymous_client_secret = '1778221d97274a3085d91e2636b686fb'
@@ -108,29 +109,30 @@ class Playlist:
         auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
                           redirect_uri=self.redirect_uri, scope=self.scope)
 
+        #token = util.prompt_for_user_token(self.anonymous_username, self.scope, client_id=self.anonymous_client_id, client_secret=self.anonymous_client_secret, redirect_uri=self.redirect_uri)
         sp = spotipy.Spotify(auth_manager=auth_manager)
         if self.type == 'artist':
-            songs = self.create_by_artist(users)
+            songs = self.create_by_artist(users,sp)
         elif self.type == 'genre':
-            songs = self.create_by_genre(users)
+            songs = self.create_by_genre(users,sp)
         else:
             print('invalid type')
             return
 
-        playlist_id = sp.user_playlist_create(user = self.anonymous_client_id, name = self.anonymous_username, public = True, collaborative=False, description='SPP Generated Playlist')
-        sp.user_playlist_add_tracks(user = self.anonymous_client_id, tracks = songs, playlist = playlist_id)
+        generated_playlist_id = sp.user_playlist_create(user = self.anonymous_username, name = 'SPP Generated Playlist', public = True, collaborative=False, description='SPP Generated Playlist')['id']
+        sp.user_playlist_add_tracks(user = self.anonymous_client_id, tracks = songs, playlist_id = generated_playlist_id)
 
-        return playlist_id
+        return generated_playlist_id
 
-    def create_by_artist(self, users):
+    def create_by_artist(self, users, sp):
 
-        auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
-                          redirect_uri=self.redirect_uri, scope=self.scope)
+        # auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
+        #                   redirect_uri=self.redirect_uri, scope=self.scope)
 
-        sp = spotipy.Spotify(auth_manager=auth_manager)
+        # sp = spotipy.Spotify(auth_manager=auth_manager)
 
-        auth_manager.cache_handler.save_token_to_cache(
-                    auth_manager.get_access_token(as_dict=False, check_cache=False))
+        # auth_manager.cache_handler.save_token_to_cache(
+        #             auth_manager.get_access_token(as_dict=False, check_cache=False))
 
         #Create array of artistIDs for users in room
         userList=users
@@ -156,23 +158,24 @@ class Playlist:
         #Create and print generated playlist array of songIDs
         for i in range(len(most_frequent_artist)):
             artistTracks = sp.artist_top_tracks(most_frequent_artist[i][1])
+            #print(artistTracks)
             for j in range(len(artistTracks['tracks'])):
-                generatedPlaylist.append(artistTracks['tracks'][j]['album']['id'])
+                generatedPlaylist.append(artistTracks['tracks'][j]['id'])
         #Print
-        for i in range(len(generatedPlaylist)):
-            print(generatedPlaylist[i])
+        
+        print(generatedPlaylist)
         #Assign playlist songs value to generated playlist
-        self.songs = generatedPlaylist
+        return generatedPlaylist
 
-    def create_by_genre(self, users):
+    def create_by_genre(self, users, sp):
 
-        auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
-                          redirect_uri=self.redirect_uri, scope=self.scope)
+        # auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
+        #                   redirect_uri=self.redirect_uri, scope=self.scope)
 
-        sp = spotipy.Spotify(auth_manager=auth_manager)
+        # sp = spotipy.Spotify(auth_manager=auth_manager)
 
-        auth_manager.cache_handler.save_token_to_cache(
-                    auth_manager.get_access_token(as_dict=False, check_cache=False))
+        # auth_manager.cache_handler.save_token_to_cache(
+        #             auth_manager.get_access_token(as_dict=False, check_cache=False))
 
         userList=users
         artistGenreList = []
@@ -197,7 +200,7 @@ class Playlist:
         for i in range(len(data['tracks'])):
             generatedPlaylist.append(data['tracks'][i]['id'])
 
-        self.songs = generatedPlaylist
+        return generatedPlaylist
 
 class Infographic:
     def __init__(self, songs, num_users):

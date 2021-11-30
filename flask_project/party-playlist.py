@@ -91,7 +91,7 @@ def room():
         room.add_user(current_user)
         room.create_playlist()
         session['room_id'] = room_id
-        print([r.get_room_id() for r in rooms])
+        #print([r.get_room_id() for r in rooms])
 
         
 
@@ -103,7 +103,9 @@ def room():
     
 @app.route('/playlist-artist')
 def playlist_artist():
-    playlist_id = session.get('room_id', None)
+    room_id = session.get('room_id', None)
+    room = [r for r in rooms if r.get_room_id() == room_id][0]
+    playlist_id = room.artist_playlist_id
     link = 'https://open.spotify.com/embed/playlist/' + playlist_id + '?utm_source=generator&theme=0'
     return render_template('playlist-artist.html', link = link)
 
