@@ -174,29 +174,21 @@ class Infographic:
             self.create_small()
 
     def create_large(self):
-        #Gathering artist ids
-        artistIdList = []
         userList = self.users
+
+        #Gathering artist ids
+        artist_counter = defaultdict(int)
         for i in range(len(userList)):
             for j in range(len(userList[i].song_history)):
-                artistIdList.append(userList[i].song_history[j].get_song_artist_id())
-
-        #Create hashmap of songs with ids as key and number of duplicates as value
-        for i in range(len(userHistory['items'])):
-            artistIdList.append(userHistory['items'][i]['track']['album']['artists'][0]['id'])
-        generatedPlaylist = []
-        artist_counter = defaultdict(int)
-        for i in range(len(artistIdList)):
-            relatedArtists = sp.artist_related_artists(artistIdList[i])
-            for j in range(len(relatedArtists['artists'])):
-                artist_counter[relatedArtists['artists'][j]['id']] += 1
+                for id in userList[i].song_history[j].get_song_artist_id():
+                    artist_counter[id] += 1
 
         #Create sorted array of 5 most played artists
         most_frequent_artist = sorted([(freq, artist) for artist,
                                     freq in artist_counter.items()], reverse=True)[:5]
 
+
         #Gathering genres
-        artistGenreList = []
         genre_counter = defaultdict(int)
         for i in range(len(userList)):
             for j in range(len(userList[i].song_history)):
@@ -211,6 +203,17 @@ class Infographic:
         genre_list = []
         for i in range(len(most_frequent_genre)):
             genre_list.append(most_frequent_genre[i][1])
+
+        songList = []
+        song_counter = defaultdict(int)
+        for i in range(len(userList)):
+            for j in range(len(userList[i].song_history)):
+                for song in userList[i].song_history[j].get_song_id():
+                    song_counter[song] += 1
+
+        most_frequent_song = sorted([(freq, song) for song,
+                                freq in song_counter.items()], reverse=True)[:5]
+
 
 
     def create_small(self):
