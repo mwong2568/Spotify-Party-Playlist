@@ -163,8 +163,8 @@ class Playlist:
         self.songs = generatedPlaylist
 
 class Infographic:
-    def __init__(self, songs, num_users):
-        self.songs = songs
+    def __init__(self, users, num_users):
+        self.songs = users #array of users
         self.num_users = num_users
 
     def create(self):
@@ -174,9 +174,46 @@ class Infographic:
             self.create_small()
 
     def create_large(self):
-        #TODO
-        pass
+        #Gathering artist ids
+        artistIdList = []
+        userList = self.users
+        for i in range(len(userList)):
+            for j in range(len(userList[i].song_history)):
+                artistIdList.append(userList[i].song_history[j].get_song_artist_id())
+
+        #Create hashmap of songs with ids as key and number of duplicates as value
+        for i in range(len(userHistory['items'])):
+            artistIdList.append(userHistory['items'][i]['track']['album']['artists'][0]['id'])
+        generatedPlaylist = []
+        artist_counter = defaultdict(int)
+        for i in range(len(artistIdList)):
+            relatedArtists = sp.artist_related_artists(artistIdList[i])
+            for j in range(len(relatedArtists['artists'])):
+                artist_counter[relatedArtists['artists'][j]['id']] += 1
+
+        #Create sorted array of 5 most played artists
+        most_frequent_artist = sorted([(freq, artist) for artist,
+                                    freq in artist_counter.items()], reverse=True)[:5]
+
+        #Gathering genres
+        artistGenreList = []
+        genre_counter = defaultdict(int)
+        for i in range(len(userList)):
+            for j in range(len(userList[i].song_history)):
+                for genre in userList[i].song_history[j].get_song_genre():
+                    genre_counter[genre] += 1
+
+        #Sort hashmap into tuple array
+        most_frequent_genre = sorted([(freq, genre) for genre,
+                                    freq in genre_counter.items()], reverse=True)[:5]
+
+        #Tuple array into single array of 5 most popular genres
+        genre_list = []
+        for i in range(len(most_frequent_genre)):
+            genre_list.append(most_frequent_genre[i][1])
+
 
     def create_small(self):
         #TODO
+
         pass
