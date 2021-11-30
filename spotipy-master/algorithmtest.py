@@ -27,7 +27,7 @@ auth_manager.cache_handler.save_token_to_cache(
 userHistory = sp.current_user_recently_played(limit = 5)
 
 
-
+"""
 result = sp.search('Alaina Castillo')
 track=result['tracks']['items'][0]
 
@@ -39,6 +39,8 @@ genre_counter = defaultdict(int)
 for i in range(len(artistGenreList)):
     genre_counter[artistGenreList[i]] += 1
 
+print(genre_counter)
+
 most_frequent_genre = sorted([(freq, genre) for genre,
                             freq in genre_counter.items()], reverse=True)[:5]
 #print(sp.recommendation_genre_seeds())
@@ -46,11 +48,39 @@ genre_list = []
 for i in range(len(most_frequent_genre)):
     genre_list.append(most_frequent_genre[i][1])
 
+print(genre_list)
+
 data = sp.recommendations(seed_genres = genre_list, limit = 20)
 generatedPlaylist = []
 for i in range(len(data['tracks'])):
     generatedPlaylist.append(data['tracks'][i]['id'])
 
+print(generatedPlaylist)
+"""
+
+artistIdList = []
+for i in range(len(userHistory['items'])):
+    artistIdList.append(userHistory['items'][i]['track']['album']['artists'][0]['id'])
+generatedPlaylist = []
+artist_counter = defaultdict(int)
+for i in range(len(artistIdList)):
+    relatedArtists = sp.artist_related_artists(artistIdList[i])
+    for j in range(len(relatedArtists['artists'])):
+        artist_counter[relatedArtists['artists'][j]['id']] += 1
+
+print(artist_counter)
+#Create sorted array of 5 most played artists
+most_frequent_artist = sorted([(freq, artist) for artist,
+                            freq in artist_counter.items()], reverse=True)[:5]
+
+#Create and print generated playlist array of songIDs
+for i in range(len(most_frequent_artist)):
+    artistTracks = sp.artist_top_tracks(most_frequent_artist[i][1])
+    for j in range(len(artistTracks['tracks'])):
+        generatedPlaylist.append(artistTracks['tracks'][j]['album']['id'])
+#Print
+for i in range(len(generatedPlaylist)):
+    print(generatedPlaylist[i])
 
 #print(genre_list)
 

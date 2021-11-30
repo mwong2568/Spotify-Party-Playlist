@@ -139,14 +139,11 @@ class Playlist:
     def create_by_genre(self, user.song_history):
         userList=currentRoom.get_users()
         artistGenreList = []
+        genre_counter = defaultdict(int)
         for i in range(len(userList)):
             for j in range(len(userList[i].song_history)):
-                artistGenreList += userList[i].song_history[j].get_song_genre())
-
-        #Create hashmap of genres and frequency
-        genre_counter = defaultdict(int)
-        for i in range(len(artistGenreList)):
-            genre_counter[artistGenreList[i]] += 1
+                for genre in userList[i].song_history[j].get_song_genre():
+                    genre_counter[genre] += 1
 
         #Sort hashmap into tuple array
         most_frequent_genre = sorted([(freq, genre) for genre,
