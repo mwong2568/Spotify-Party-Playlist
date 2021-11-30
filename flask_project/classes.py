@@ -104,28 +104,63 @@ class Playlist:
             return
 
     def create_by_artist(self, currentRoom):
+        #Create array of artistIDs for users in room
         userList=currentRoom.get_users()
         artistIdList = []
         for i in range(len(userList)):
             for j in range(len(userList[i].song_history)):
                 artistIdList.append(userList[i].song_history[j].get_song_artist_id())
 
-        #algorithm here
+        #Create hashmap of songs with ids as key and number of duplicates as value
+        for i in range(len(userHistory['items'])):
+            artistIdList.append(userHistory['items'][i]['track']['album']['artists'][0]['id'])
+        generatedPlaylist = []
+        artist_counter = defaultdict(int)
+        for i in range(len(artistIdList)):
+            relatedArtists = sp.artist_related_artists(artistIdList[i])
+            for j in range(len(relatedArtists['artists'])):
+                artist_counter[relatedArtists['artists'][j]['id']] += 1
 
-        self.songs =
-        pass
+        #Create sorted array of 5 most played artists
+        most_frequent_artist = sorted([(freq, artist) for artist,
+                                    freq in artist_counter.items()], reverse=True)[:5]
+
+        #Create and print generated playlist array of songIDs
+        for i in range(len(most_frequent_artist)):
+            artistTracks = sp.artist_top_tracks(most_frequent_artist[i][1])
+            for j in range(len(artistTracks['tracks'])):
+                generatedPlaylist.append(artistTracks['tracks'][j]['album']['id'])
+        #Print
+        for i in range(len(generatedPlaylist)):
+            print(generatedPlaylist[i])
+        #Assign playlist songs value to generated playlist
+        self.songs = generatedPlaylist
 
     def create_by_genre(self, user.song_history):
         userList=currentRoom.get_users()
         artistGenreList = []
+        genre_counter = defaultdict(int)
         for i in range(len(userList)):
             for j in range(len(userList[i].song_history)):
-                artistGenreList.append(userList[i].song_history[j].get_song_genre())
+                for genre in userList[i].song_history[j].get_song_genre():
+                    genre_counter[genre] += 1
 
-        #algorithm here
-        
-        self.songs =
-        pass
+        #Sort hashmap into tuple array
+        most_frequent_genre = sorted([(freq, genre) for genre,
+                                    freq in genre_counter.items()], reverse=True)[:5]
+
+        #Tuple array into single array of 5 most popular genres
+        genre_list = []
+        for i in range(len(most_frequent_genre)):
+            genre_list.append(most_frequent_genre[i][1])
+
+        #Get 20 recommendations for genres and input into generated playlist
+        data = sp.recommendations(seed_genres = genre_list, limit = 20)
+        generatedPlaylist = []
+        for i in range(len(data['tracks'])):
+            generatedPlaylist.append(data['tracks'][i]['id'])
+
+        self.songs = generatedPlaylist
 
 class Infographic:
     def __init__(self, songs, num_users):
