@@ -49,6 +49,8 @@ class Room:
     def __init__(self, room_id):
         self.room_id = room_id
         self.users = []
+        self.artist_playlist_id = ''
+        self.genre_playlist_id = ''
 
     def add_user(self, user):
         if user not in self.users:
@@ -61,9 +63,12 @@ class Room:
     def get_users(self):
         return self.users
 
-    def create_playlist(self, type):
-        #TODO
-        pass
+    def create_playlist(self):
+        artist_playlist = Playlist('artist')
+        self.artist_playlist_id = artist_playlist.create(self.users)
+        
+        genre_playlist = Playlist('genre')
+        self.genre_playlist_id = genre_playlist.create(self.users)
 
     def create_infographic(self, num_users):
         #TODO
@@ -90,30 +95,53 @@ class Song:
         return self.song_genre
 
 class Playlist:
-    def __init__(self, songs, type):
-        self.songs = songs
+    def __init__(self, type):
         self.type = type
+        self.anonymous_username = 'milelongpoo'
+        self.anonymous_client_id = '1e4ebebf89764ab9889940b50f5de398'
+        self.anonymous_client_secret = '1778221d97274a3085d91e2636b686fb'
+        self.redirect_uri = 'http://localhost:9000'
+        self.scope = 'user-read-recently-played user-modify-playback-state playlist-modify-public'
+    
+    def create(self, users):
+        songs = []
+        auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
+                          redirect_uri=self.redirect_uri, scope=self.scope)
 
-    def create(self):
+        sp = spotipy.Spotify(auth_manager=auth_manager)
         if self.type == 'artist':
-            self.create_by_artist()
+            songs = self.create_by_artist(users)
         elif self.type == 'genre':
-            self.create_by_genre()
+            songs = self.create_by_genre(users)
         else:
             print('invalid type')
             return
 
-    def create_by_artist(self, currentRoom):
+        playlist_id = sp.user_playlist_create(user = self.anonymous_client_id, name = self.anonymous_username, public = True, collaborative=False, description='SPP Generated Playlist')
+        sp.user_playlist_add_tracks(user = self.anonymous_client_id, tracks = songs, playlist = playlist_id)
+
+        return playlist_id
+
+    def create_by_artist(self, users):
+
+        auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
+                          redirect_uri=self.redirect_uri, scope=self.scope)
+
+        sp = spotipy.Spotify(auth_manager=auth_manager)
+
+        auth_manager.cache_handler.save_token_to_cache(
+                    auth_manager.get_access_token(as_dict=False, check_cache=False))
+
         #Create array of artistIDs for users in room
-        userList=currentRoom.get_users()
+        userList=users
         artistIdList = []
         for i in range(len(userList)):
             for j in range(len(userList[i].song_history)):
                 artistIdList.append(userList[i].song_history[j].get_song_artist_id())
 
         #Create hashmap of songs with ids as key and number of duplicates as value
-        for i in range(len(userHistory['items'])):
-            artistIdList.append(userHistory['items'][i]['track']['album']['artists'][0]['id'])
+        # for i in range(len(userHistory['items'])):
+        #     artistIdList.append(userHistory['items'][i]['track']['album']['artists'][0]['id'])
         generatedPlaylist = []
         artist_counter = defaultdict(int)
         for i in range(len(artistIdList)):
@@ -136,8 +164,17 @@ class Playlist:
         #Assign playlist songs value to generated playlist
         self.songs = generatedPlaylist
 
-    def create_by_genre(self, user.song_history):
-        userList=currentRoom.get_users()
+    def create_by_genre(self, users):
+
+        auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
+                          redirect_uri=self.redirect_uri, scope=self.scope)
+
+        sp = spotipy.Spotify(auth_manager=auth_manager)
+
+        auth_manager.cache_handler.save_token_to_cache(
+                    auth_manager.get_access_token(as_dict=False, check_cache=False))
+
+        userList=users
         artistGenreList = []
         genre_counter = defaultdict(int)
         for i in range(len(userList)):

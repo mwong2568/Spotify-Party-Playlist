@@ -86,19 +86,30 @@ def room():
             rooms.append(new_room)
             room = new_room
         else:
-            room = [r for r in rooms if r.get_room_id() == room_id]
+            room = [r for r in rooms if r.get_room_id() == room_id][0]
             
         room.add_user(current_user)
+        room.create_playlist()
+        session['room_id'] = room_id
         print([r.get_room_id() for r in rooms])
+
+        
 
         for user in room.get_users():
             print(user.whoami())
+        
 
     return render_template('room.html')
     
-@app.route('/playlist')
-def playlist():
-    return render_template('playlist.html')
+@app.route('/playlist-artist')
+def playlist_artist():
+    playlist_id = session.get('room_id', None)
+    link = 'https://open.spotify.com/embed/playlist/' + playlist_id + '?utm_source=generator&theme=0'
+    return render_template('playlist-artist.html', link = link)
+
+@app.route('/playlist-genre')
+def playlist_genre():
+    return render_template('playlist-genre.html')
 
 @app.route('/infographic')
 def infographic():
