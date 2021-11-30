@@ -104,27 +104,11 @@ class Playlist:
             return
 
     def create_by_artist(self, currentRoom):
-        userList=currentRoom.get_users()
-        artistIdList = []
-        for i in range(len(userList)):
-            for j in range(len(userList[i].song_history)):
-                artistIdList.append(userList[i].song_history[j].get_song_artist_id())
 
-        #algorithm here
-
-        self.songs =
         pass
 
-    def create_by_genre(self, user.song_history):
-        userList=currentRoom.get_users()
-        artistGenreList = []
-        for i in range(len(userList)):
-            for j in range(len(userList[i].song_history)):
-                artistGenreList.append(userList[i].song_history[j].get_song_genre())
+    def create_by_genre(self, song_history):
 
-        #algorithm here
-        
-        self.songs =
         pass
 
 class Infographic:
