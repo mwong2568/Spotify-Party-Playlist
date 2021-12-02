@@ -3,9 +3,40 @@
 {% block page_content %}
 
 <h1>
-    Infographic Page
-    TO DO
-    GRAPH
+    INFOGRAPHICS
 </h1>
 
+<p>
+    <h3>
+        Between {% for user in users %}
+        {{user}},
+        {% endfor %}
+        :
+    </h3>
+    
+</p>
+
+<p>
+<h3>The top 5 shared artists are: </h3>
+
+{% for freq, artist in top_artists %}
+<h4> {{artist}},  {{freq}}</h4>
+{% endfor %} 
+</p>
+
+<p>
+<h3>The top 5 shared genres are: </h3>
+{% for freq, genre in top_genres %}
+<h4> {{genre}},  {{freq}}</h4>
+{% endfor %}
+</p>
+
+<p>
+    <h3>The top 5 shared songs are: </h3> 
+{% for freq, song in top_songs %}
+<h4> {{song}},  {{freq}}</h4>
+{% endfor %}   
+</p>
+
+<a href = {{url_for('room')}}>RETURN</a>
 {% endblock page_content %}
