@@ -106,7 +106,7 @@ class Playlist:
     def __init__(self, type, client_id, client_secret):
         self.type = type
         self.user_id = ''
-        self.anonymous_username = 'spptest1'
+        self.anonymous_username = 'qidav5qss11ylrmpnuumlactw'
         self.anonymous_client_id = client_id
         self.anonymous_client_secret = client_secret
         self.redirect_uri = 'http://localhost:9000'
