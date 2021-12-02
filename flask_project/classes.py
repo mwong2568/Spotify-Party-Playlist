@@ -63,12 +63,12 @@ class Room:
     def get_users(self):
         return self.users
 
-    def create_playlist(self):
+    def create_playlist(self, sp):
         artist_playlist = Playlist('artist')
-        self.artist_playlist_id = artist_playlist.create(self.users)
+        self.artist_playlist_id = artist_playlist.create(self.users, sp)
         
         genre_playlist = Playlist('genre')
-        self.genre_playlist_id = genre_playlist.create(self.users)
+        self.genre_playlist_id = genre_playlist.create(self.users, sp)
 
     def create_infographic(self, num_users):
         #TODO
@@ -104,13 +104,13 @@ class Playlist:
         self.redirect_uri = 'http://localhost:9000'
         self.scope = 'user-read-recently-played user-modify-playback-state playlist-modify-public'
     
-    def create(self, users):
+    def create(self, users, sp_obj):
         songs = []
         auth_manager=SpotifyOAuth(client_id=self.anonymous_client_id,client_secret=self.anonymous_client_secret,
                           redirect_uri=self.redirect_uri, scope=self.scope)
 
         #token = util.prompt_for_user_token(self.anonymous_username, self.scope, client_id=self.anonymous_client_id, client_secret=self.anonymous_client_secret, redirect_uri=self.redirect_uri)
-        sp = spotipy.Spotify(auth_manager=auth_manager)
+        sp = sp_obj
         if self.type == 'artist':
             songs = self.create_by_artist(users,sp)
         elif self.type == 'genre':

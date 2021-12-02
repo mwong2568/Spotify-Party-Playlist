@@ -33,7 +33,7 @@ def spotify():
 def home():
     if request.method == 'GET':
         return f"The URL is being accessed directly, go back to login"
-        
+
     if request.method == 'POST':
         form_data = request.form
         print(form_data)
@@ -55,7 +55,7 @@ def room():
     
     if request.method == 'POST':
         redirect_uri = 'http://localhost:9000'
-        scope = "user-read-recently-played"
+        scope = "user-read-recently-played user-modify-playback-state playlist-modify-public"
         client_id = session.get('client_id', None)
         client_secret = session.get('client_secret', None)
         name = session.get('name', None)
@@ -64,6 +64,8 @@ def room():
                           redirect_uri=redirect_uri, scope=scope)
         
         sp = spotipy.Spotify(auth_manager=auth_manager)
+        print('getting access token')
+        access_token = auth_manager.get_access_token()
 
         auth_manager.cache_handler.save_token_to_cache(
             auth_manager.get_access_token(as_dict=False, check_cache=False))
@@ -83,7 +85,7 @@ def room():
             room = [r for r in rooms if r.get_room_id() == room_id][0]
             
         room.add_user(current_user)
-        room.create_playlist()
+        room.create_playlist(sp)
         session['room_id'] = room_id
         
     return render_template('room.html')
