@@ -1,9 +1,9 @@
 # Spotify Party Playlist
-Webapp that allows groups of users to generate different playlists that suits the group's preferences
-
-## Installation
-Check requirements.txt for more info
-
+Webapp that allows groups of users to generate different playlists that suits the group's preferences <br /> 
+<br /> 
+## Installation <br /> 
+Check requirements.txt for more info <br /> 
+ <br /> 
 Flask
 Spotipy
 Redis
