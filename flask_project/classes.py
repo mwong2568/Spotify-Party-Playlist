@@ -163,9 +163,9 @@ class Playlist:
             genre_list.append(most_frequent_genre[i][1])
 
         available_genres=sp.recommendation_genre_seeds()['genres']
-        print(available_genres)
+        #print(available_genres)
         #print('genrelist')
-        print(genre_list)
+        #print(genre_list)
         new_genre_list = []
 
         for genre in genre_list:
@@ -174,7 +174,6 @@ class Playlist:
                     new_genre_list.append(av_genre)
                     break
 
-        print(new_genre_list)
         #Get 20 recommendations for genres and input into generated playlist
         data = sp.recommendations(seed_genres = list(set(new_genre_list))[:5], limit = 20)
         generatedPlaylist = []
