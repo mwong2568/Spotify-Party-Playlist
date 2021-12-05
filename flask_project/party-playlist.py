@@ -9,6 +9,7 @@ app.secret_key = 'dfwjhifhaidshjfbgadsikhfbadsihf'
 test_arr = [1,2,3,5,4]
 test_room = Room('demo room')
 test_room.add_user(test_objects.Andrew)
+test_room.add_user(test_objects.Ben)
 rooms = [test_room]
 
 @app.route('/test', methods=['GET','POST'])
@@ -70,7 +71,7 @@ def room():
             auth_manager.get_access_token(as_dict=False, check_cache=False))
         
         recently_played = sp.current_user_recently_played(limit=50)
-        print(recently_played)
+        #print(recently_played)
 
         room_id = request.form['room_id']
 
@@ -115,6 +116,6 @@ def infographic():
     top_artists, top_genres, top_songs = room.top_artists, room.top_genres, room.top_songs
     users = [user.user_name for user in room.users]
 
-    print(top_artists, top_genres, top_songs)
+    #print(top_artists, top_genres, top_songs)
 
     return render_template('infographic.html', users = users, top_artists = top_artists, top_genres = top_genres, top_songs = top_songs)
