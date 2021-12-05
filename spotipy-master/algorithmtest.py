@@ -1,3 +1,4 @@
+####Test file####
 import json
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -27,36 +28,7 @@ auth_manager.cache_handler.save_token_to_cache(
 userHistory = sp.current_user_recently_played(limit = 5)
 
 
-"""
-result = sp.search('Alaina Castillo')
-track=result['tracks']['items'][0]
 
-artist = sp.artist(track["artists"][0]["external_urls"]["spotify"])
-artistGenreList = artist["genres"]
-
-
-genre_counter = defaultdict(int)
-for i in range(len(artistGenreList)):
-    genre_counter[artistGenreList[i]] += 1
-
-print(genre_counter)
-
-most_frequent_genre = sorted([(freq, genre) for genre,
-                            freq in genre_counter.items()], reverse=True)[:5]
-#print(sp.recommendation_genre_seeds())
-genre_list = []
-for i in range(len(most_frequent_genre)):
-    genre_list.append(most_frequent_genre[i][1])
-
-print(genre_list)
-
-data = sp.recommendations(seed_genres = genre_list, limit = 20)
-generatedPlaylist = []
-for i in range(len(data['tracks'])):
-    generatedPlaylist.append(data['tracks'][i]['id'])
-
-print(generatedPlaylist)
-"""
 
 artistIdList = []
 for i in range(len(userHistory['items'])):
@@ -81,6 +53,38 @@ for i in range(len(most_frequent_artist)):
 #Print
 for i in range(len(generatedPlaylist)):
     print(generatedPlaylist[i])
+
+"""
+#test case setup
+result = sp.search('Alaina Castillo')
+track=result['tracks']['items'][0]
+
+artist = sp.artist(track["artists"][0]["external_urls"]["spotify"])
+artistGenreList = artist["genres"]
+#
+
+genre_counter = defaultdict(int)
+for i in range(len(artistGenreList)):
+    genre_counter[artistGenreList[i]] += 1
+
+print(genre_counter)
+
+most_frequent_genre = sorted([(freq, genre) for genre,
+                            freq in genre_counter.items()], reverse=True)[:5]
+#print(sp.recommendation_genre_seeds())
+genre_list = []
+for i in range(len(most_frequent_genre)):
+    genre_list.append(most_frequent_genre[i][1])
+
+print(genre_list)
+
+data = sp.recommendations(seed_genres = genre_list, limit = 20)
+generatedPlaylist = []
+for i in range(len(data['tracks'])):
+    generatedPlaylist.append(data['tracks'][i]['id'])
+
+print(generatedPlaylist)
+"""
 
 #print(genre_list)
 
