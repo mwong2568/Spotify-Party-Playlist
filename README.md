@@ -1,34 +1,29 @@
-# Foobar
-
-Foobar is a Python library for dealing with word pluralization.
+# Spotify Party Playlist
+Webapp that allows groups of users to generate different playlists that suits the group's preferences
 
 ## Installation
+Check requirements.txt for more info
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
-```bash
-pip install foobar
-```
+Flask
+Spotipy
+Redis
+Requests
+Flask-Sessions
 
 ## Usage
 
-```python
-import foobar
+After downloading and unzipping the folder, navigate to the flask_project directory with the terminal.
+From there, run the commands:
+(for terminal)
+      $env:FLASK_APP = 'party-playlist.py'
+      $env:FLASK_DEBUG = 1
+(for bash, unverified)
+      export FLASK_APP = party-playlist.py
+      export FLASK_DEBUG = 1
 
-# returns 'words'
-foobar.pluralize('word')
+Then run the commmand:
+      python -m flask run
+      
+After this, click on the resulting IPv4 output to access the webpage.
+From here, follow the instructions on the home page to set up a spotify developer account to retrieve your ClientID and Client Secret, and set the URI.
 
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
