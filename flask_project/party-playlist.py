@@ -37,6 +37,9 @@ def home():
         return f"The URL is being accessed directly, go back to login"
         
     if request.method == 'POST':
+
+        # Retrieve Form Data
+
         form_data = request.form
         print(form_data)
         client_id = form_data['client_id']
@@ -56,12 +59,15 @@ def room():
         room = [r for r in rooms if r.get_room_id() == room_id][0]
     
     if request.method == 'POST':
+
+        # Use flask session to pass info between pages
         redirect_uri = 'http://localhost:9000'
         scope = "user-read-recently-played"
         client_id = session.get('client_id', None)
         client_secret = session.get('client_secret', None)
         name = session.get('name', None)
 
+        # Set up SpotifyOAuth object to read,write in user account
         auth_manager=SpotifyOAuth(client_id=client_id,client_secret=client_secret,
                           redirect_uri=redirect_uri, scope=scope)
         
@@ -70,13 +76,14 @@ def room():
         auth_manager.cache_handler.save_token_to_cache(
             auth_manager.get_access_token(as_dict=False, check_cache=False))
         
+        # Fetch User's recently played music
         recently_played = sp.current_user_recently_played(limit=50)
-        #print(recently_played)
 
         room_id = request.form['room_id']
 
         current_user = User(client_id, client_secret, name, recently_played)
 
+        # Find or create room if it doesn't exist and add the user to the room
         room = None
         if room_id not in [r.get_room_id() for r in rooms]:
             new_room = Room(room_id)
@@ -86,6 +93,8 @@ def room():
             room = [r for r in rooms if r.get_room_id() == room_id][0]
             
         room.add_user(current_user)
+
+        # Update the room's generated playlist and infographics since a new user joined
         room.create_playlist(client_id, client_secret, name)
         room.create_infographic()
         session['room_id'] = room_id
@@ -94,18 +103,26 @@ def room():
     
 @app.route('/playlist-artist')
 def playlist_artist():
+    
+    # Get the playlist id for the room
     room_id = session.get('room_id', None)
     room = [r for r in rooms if r.get_room_id() == room_id][0]
     playlist_id = room.artist_playlist_id
+
     link = 'https://open.spotify.com/embed/playlist/' + playlist_id + '?utm_source=generator&theme=0'
+    
     return render_template('playlist-artist.html', link = link)
 
 @app.route('/playlist-genre')
 def playlist_genre():
+    # Get the playlist id for the room
     room_id = session.get('room_id', None)
     room = [r for r in rooms if r.get_room_id() == room_id][0]
+    
     playlist_id = room.genre_playlist_id
+    
     link = 'https://open.spotify.com/embed/playlist/' + playlist_id + '?utm_source=generator&theme=0'
+    
     return render_template('playlist-genre.html', link = link)
 
 @app.route('/infographic')
@@ -115,7 +132,5 @@ def infographic():
 
     top_artists, top_genres, top_songs = room.top_artists, room.top_genres, room.top_songs
     users = [user.user_name for user in room.users]
-
-    #print(top_artists, top_genres, top_songs)
 
     return render_template('infographic.html', users = users, top_artists = top_artists, top_genres = top_genres, top_songs = top_songs)
