@@ -14,6 +14,7 @@ Flask-Sessions
 
 After downloading and unzipping the folder, navigate to the flask_project directory with the terminal.  <br /> 
 From there, run the commands: <br /> 
+ <br /> 
 (for terminal) <br /> 
       $env:FLASK_APP = 'party-playlist.py' <br /> 
       $env:FLASK_DEBUG = 1 <br /> 
