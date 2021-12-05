@@ -1,14 +1,15 @@
 from flask import Flask, render_template, url_for, redirect, request, session
 from classes import User, Room, Infographic, Playlist, Song
-
+import test_objects
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
 app = Flask(__name__)
 app.secret_key = 'dfwjhifhaidshjfbgadsikhfbadsihf'
 test_arr = [1,2,3,5,4]
-
-rooms = []
+test_room = Room('demo room')
+test_room.add_user(test_objects.Andrew)
+rooms = [test_room]
 
 @app.route('/test', methods=['GET','POST'])
 def test():
@@ -69,6 +70,7 @@ def room():
             auth_manager.get_access_token(as_dict=False, check_cache=False))
         
         recently_played = sp.current_user_recently_played(limit=50)
+        print(recently_played)
 
         room_id = request.form['room_id']
 
@@ -83,7 +85,8 @@ def room():
             room = [r for r in rooms if r.get_room_id() == room_id][0]
             
         room.add_user(current_user)
-        room.create_playlist()
+        room.create_playlist(client_id, client_secret, name)
+        room.create_infographic()
         session['room_id'] = room_id
         
     return render_template('room.html')
@@ -106,4 +109,12 @@ def playlist_genre():
 
 @app.route('/infographic')
 def infographic():
-    return render_template('infographic.html')
+    room_id = session.get('room_id', None)
+    room = [r for r in rooms if r.get_room_id() == room_id][0]
+
+    top_artists, top_genres, top_songs = room.top_artists, room.top_genres, room.top_songs
+    users = [user.user_name for user in room.users]
+
+    print(top_artists, top_genres, top_songs)
+
+    return render_template('infographic.html', users = users, top_artists = top_artists, top_genres = top_genres, top_songs = top_songs)
