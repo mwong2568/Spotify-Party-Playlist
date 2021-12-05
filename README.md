@@ -4,11 +4,11 @@ Webapp that allows groups of users to generate different playlists that suits th
 ## Installation <br /> 
 Check requirements.txt for more info <br /> 
  <br /> 
-Flask
-Spotipy
-Redis
-Requests
-Flask-Sessions
+Flask <br /> 
+Spotipy <br /> 
+Redis <br /> 
+Requests <br /> 
+Flask-Sessions <br /> 
 
 ## Usage
 
