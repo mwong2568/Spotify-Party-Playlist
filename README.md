@@ -26,5 +26,7 @@ Then run the commmand: <br />
       python -m flask run <br /> 
        <br /> 
 After this, click on the resulting IPv4 output to access the webpage. <br /> 
+Starting up the server may take upwards of a minute. We are simply preprocessing data at this point. <br /> 
 From here, follow the instructions on the home page to set up a spotify developer account to retrieve your ClientID and Client Secret, and set the URI. <br /> 
-
+We have created a test room with test user for demo purposes. Please join the room 'demo room' once prompted! <br /> 
+Joining a room may also take upwards of a minute! <br /> 
