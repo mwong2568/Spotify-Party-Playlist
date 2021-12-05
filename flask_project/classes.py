@@ -69,11 +69,11 @@ class Room:
     def get_users(self):
         return self.users
 
-    def create_playlist(self, client_id, client_secret):
-        artist_playlist = Playlist('artist', client_id, client_secret)
+    def create_playlist(self, client_id, client_secret, username):
+        artist_playlist = Playlist('artist', client_id, client_secret, username)
         self.artist_playlist_id = artist_playlist.create(self.users)
         
-        genre_playlist = Playlist('genre', client_id, client_secret)
+        genre_playlist = Playlist('genre', client_id, client_secret, username)
         self.genre_playlist_id = genre_playlist.create(self.users)
 
     def create_infographic(self):
@@ -103,10 +103,10 @@ class Song:
         return self.song_genre
 
 class Playlist:
-    def __init__(self, type, client_id, client_secret):
+    def __init__(self, type, client_id, client_secret, username):
         self.type = type
         self.user_id = ''
-        self.anonymous_username = 'qidav5qss11ylrmpnuumlactw'
+        self.anonymous_username = username
         self.anonymous_client_id = client_id
         self.anonymous_client_secret = client_secret
         self.redirect_uri = 'http://localhost:9000'
