@@ -85,7 +85,7 @@ def room():
             room = [r for r in rooms if r.get_room_id() == room_id][0]
             
         room.add_user(current_user)
-        room.create_playlist(client_id, client_secret)
+        room.create_playlist(client_id, client_secret, name)
         room.create_infographic()
         session['room_id'] = room_id
         
